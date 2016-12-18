@@ -10,7 +10,7 @@ Extension displays the top most ordered products(bestseller) for your stores.
 2. Enter following commands to install module:
 
     ```bash
-    composer require faonni/module-product-most-viewed
+    composer require faonni/module-product-most-ordered
     ```
    Wait while dependencies are updated.
 
