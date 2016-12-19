@@ -24,19 +24,11 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="content">
-            <block class="Faonni\ProductMostOrdered\Block\ProductList" name="catalog.product.most.ordered" template="Faonni_ProductMostOrdered::product/list/items.phtml">
+        <referenceContainer name="content">
+            <block class="Faonni\ProductMostOrdered\Block\ProductList" name="catalog.product.most.ordered" template="Faonni_ProductMostOrdered::product/list/items.phtml" before="-">
                 <arguments>
                     <argument name="type" xsi:type="string">most-ordered</argument>
                     <argument name="title" xsi:type="string" translate="true">Most Ordered Products</argument>
-					<!-- use item name="eq" or item name="neq" -->
-					<!--<argument name="categories_filter" xsi:type="array">
-						<item name="eq" xsi:type="array">
-							<item name="category_id_4" xsi:type="string">4</item>
-							<item name="category_id_5" xsi:type="string">5</item>
-							<item name="category_id_6" xsi:type="string">6</item>
-						</item>					
-					</argument>-->
 					<argument name="num_products" xsi:type="string">6</argument>
 					<!-- use daily, monthly or yearly -->
 					<argument name="period" xsi:type="string">daily</argument>                   
@@ -44,7 +36,7 @@
                 <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="product.most.ordered.addto" as="addto">
                     <block class="Magento\Catalog\Block\Product\ProductList\Item\AddTo\Compare" name="product.most.ordered.addto.compare" as="compare" template="Magento_Catalog::product/list/addto/compare.phtml"/>
                 </block>			              
-            </block>				
-        </referenceBlock>
+            </block>
+        </referenceContainer>
     </body>
 </page>

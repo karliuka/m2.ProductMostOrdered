@@ -26,6 +26,7 @@ use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Module\Manager;
+use Magento\Framework\Registry;
 use Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory;
 
 /**
@@ -35,6 +36,13 @@ use Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory;
  */
 class ProductList extends AbstractProduct implements IdentityInterface
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry;
+    	
     /**
      * Product collection
      * 
@@ -67,6 +75,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Framework\Module\Manager $moduleManager
+     * @param \Magento\Framework\Registry $registry
      * @param \Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory $productsFactory
      * @param array $data
      */
@@ -74,11 +83,13 @@ class ProductList extends AbstractProduct implements IdentityInterface
         Context $context,
         Visibility $catalogProductVisibility,
         Manager $moduleManager,
+        Registry $registry,
         CollectionFactory $productsFactory,
         array $data = []
     ) {
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->moduleManager = $moduleManager;
+        $this->_coreRegistry = $registry;
         $this->_productsFactory = $productsFactory;
         parent::__construct(
             $context,
@@ -108,9 +119,8 @@ class ProductList extends AbstractProduct implements IdentityInterface
         $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());       
 		$numProducts = $this->getNumProducts() ? $this->getNumProducts() : 6;
 
-
-		if ($this->getCategoriesFilter()) {
-			$this->_itemCollection->addCategoriesFilter($this->getCategoriesFilter());
+		if ($this->getCurrentCategory()) {
+			$this->_itemCollection->addCategoryFilter($this->getCurrentCategory());
 		}	
 				
 		$this->_itemCollection->setPage(1, $numProducts); 		  
@@ -122,7 +132,23 @@ class ProductList extends AbstractProduct implements IdentityInterface
 
         return $this;
     }
-
+    
+    /**
+     * Retrieve current category model object
+     *
+     * @return \Magento\Catalog\Model\Category
+     */
+    public function getCurrentCategory()
+    {
+        if (!$this->hasData('current_category')) {
+            $this->setData(
+				'current_category', 
+				$this->_coreRegistry->registry('current_category')
+			);
+        }
+        return $this->getData('current_category');
+    }
+    
     /**
      * Before rendering html process
      * Prepare items collection
