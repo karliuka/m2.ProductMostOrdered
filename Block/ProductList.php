@@ -93,8 +93,12 @@ class ProductList extends AbstractProduct implements IdentityInterface
      */
     protected function _prepareData()
     {
+        
+ 		$period = $this->getPeriod() ? $this->getPeriod() : 'daily';
+ 		    
         $this->_itemCollection = $this->_productsFactory->create()
 			->addAttributeToSelect('*')
+			->setPeriod($period)
 			->addOrdersCount()
 			->addStoreFilter();
 
@@ -105,10 +109,12 @@ class ProductList extends AbstractProduct implements IdentityInterface
         $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
         
 		$numProducts = $this->getNumProducts() ? $this->getNumProducts() : 6;
+
+		
 		if ($this->getCategoriesFilter()) {
 			$this->_itemCollection->addCategoriesFilter($this->getCategoriesFilter());
-		}		
-		
+		}	
+				
 		$this->_itemCollection->setPage(1, $numProducts);   
         $this->_itemCollection->load();
 

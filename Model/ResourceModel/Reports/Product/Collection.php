@@ -31,6 +31,13 @@ use Magento\Reports\Model\ResourceModel\Product\Collection as ProductCollection;
 class Collection extends ProductCollection
 {
     /**
+     * Period
+     *
+     * @var string
+     */
+    protected $_period;
+    	
+    /**
      * Tables per period
      *
      * @var array
@@ -40,7 +47,20 @@ class Collection extends ProductCollection
         'monthly' => 'sales_bestsellers_aggregated_monthly',
         'yearly'  => 'sales_bestsellers_aggregated_yearly',
     ];
-
+    
+    /**
+     * Set period
+     * @codeCoverageIgnore
+     *
+     * @param string $period
+     * @return $this
+     */
+    public function setPeriod($period)
+    {
+        $this->_period = $period;
+        return $this;
+    }
+    
     /**
      * Return table per period
      *
@@ -63,7 +83,7 @@ class Collection extends ProductCollection
     {
         $this->getSelect()
 			->joinLeft(
-				['a' => $this->getTable($this->getTableByAggregationPeriod('daily'))],
+				['a' => $this->getTable($this->getTableByAggregationPeriod($this->_period))],
 				'e.entity_id = a.product_id',
 				['ordered_qty' => 'SUM(a.qty_ordered)']
 			)
