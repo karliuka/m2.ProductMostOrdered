@@ -92,10 +92,8 @@ class ProductList extends AbstractProduct implements IdentityInterface
      * @return \Faonni\ProductMostOrdered\Block\ProductList
      */
     protected function _prepareData()
-    {
-        
- 		$period = $this->getPeriod() ? $this->getPeriod() : 'daily';
- 		    
+    {       
+ 		$period = $this->getPeriod() ? $this->getPeriod() : 'daily'; 		    
         $this->_itemCollection = $this->_productsFactory->create()
 			->addAttributeToSelect('*')
 			->setPeriod($period)
