@@ -19,9 +19,9 @@
  * @copyright   Copyright (c) 2016 Karliuka Vitalii(karliuka.vitalii@gmail.com) 
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-namespace Faonni\ProductMostOrdered\Model\ResourceModel\Reports\Product;
+namespace Faonni\ProductMostOrdered\Model\ResourceModel\Product;
 
-use Magento\Reports\Model\ResourceModel\Product\Collection as ProductCollection;
+use Magento\Catalog\Model\ResourceModel\Product\Collection as ProductCollection;
 
 /**
  * Catalog product most viewed items collection
@@ -82,18 +82,34 @@ class Collection extends ProductCollection
     public function addOrdersCount($from = '', $to = '')
     {
         $this->getSelect()
-			->joinLeft(
+			->join(
 				['a' => $this->getTable($this->getTableByAggregationPeriod($this->_period))],
 				'e.entity_id = a.product_id',
 				['ordered_qty' => 'SUM(a.qty_ordered)']
 			)
 			->group('e.entity_id')
-			->order('ordered_qty '  . self::SORT_ORDER_DESC)
-			->where('a.id IS NOT NULL');
+			->order('ordered_qty ' . self::SORT_ORDER_DESC);
 
         if ($from != '' && $to != '') {
-            $this->getSelect()->where('logged_at >= ?', $from)->where('logged_at <= ?', $to);
+            $this->getSelect()
+				->where('a.logged_at >= ?', $from)
+				->where('a.logged_at <= ?', $to);
         }
         return $this;
-    }	
+    }
+    
+    /**
+     * Add store availability filter. Include availability product
+     * for store website
+     *
+     * @param null|string|bool|int|Store $store
+     * @return $this
+     */
+    public function addStoreFilter($store = null)
+    {
+        parent::addStoreFilter($store);       
+        $this->getSelect()->where('a.store_id=?', $this->getStoreId());        
+
+        return $this;
+    }    
 }

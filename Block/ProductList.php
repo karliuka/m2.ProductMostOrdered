@@ -26,7 +26,7 @@ use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Module\Manager;
-use Faonni\ProductMostOrdered\Model\ResourceModel\Reports\Product\CollectionFactory;
+use Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory;
 
 /**
  * Catalog product most ordered items block
@@ -59,7 +59,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
     /**
      * Reports product collection factory
      * 
-     * @var \Faonni\ProductMostOrdered\Model\ResourceModel\Reports\Product\CollectionFactory
+     * @var \Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory
      */
     protected $_productsFactory;    
 
@@ -67,7 +67,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Framework\Module\Manager $moduleManager
-     * @param \Faonni\ProductMostOrdered\Model\ResourceModel\Reports\Product\CollectionFactory $productsFactory
+     * @param \Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory $productsFactory
      * @param array $data
      */
     public function __construct(
@@ -93,7 +93,8 @@ class ProductList extends AbstractProduct implements IdentityInterface
      */
     protected function _prepareData()
     {       
- 		$period = $this->getPeriod() ? $this->getPeriod() : 'daily'; 		    
+ 		$period = $this->getPeriod() ? $this->getPeriod() : 'daily';
+ 		 		    
         $this->_itemCollection = $this->_productsFactory->create()
 			->addAttributeToSelect('*')
 			->setPeriod($period)
@@ -112,7 +113,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
 			$this->_itemCollection->addCategoriesFilter($this->getCategoriesFilter());
 		}	
 				
-		$this->_itemCollection->setPage(1, $numProducts);   
+		$this->_itemCollection->setPage(1, $numProducts); 		  
         $this->_itemCollection->load();
 
         foreach ($this->_itemCollection as $product) {
