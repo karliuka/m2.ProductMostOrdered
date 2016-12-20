@@ -1,8 +1,10 @@
 # Magento2 ProductMostOrdered
 Extension displays the top most ordered products(bestseller) for your stores.
 
-### Configuration
+### Home page
 <img alt="Magento2 ProductMostOrdered" src="https://karliuka.github.io/m2/product-most-ordered/home-block.png" style="width:100%"/>
+### Category page
+<img alt="Magento2 ProductMostOrdered" src="https://karliuka.github.io/m2/product-most-ordered/category.png" style="width:100%"/>
 ## Install with Composer as you go
 
 1. Go to Magento2 root folder
