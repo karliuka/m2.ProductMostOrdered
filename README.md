@@ -23,6 +23,7 @@ Extension displays the top most ordered products(bestseller) for your stores.
 	php bin/magento setup:static-content:deploy
 	```
 3. Display and configuration:
+
 A shortcode to Homepage and to other CMS pages or CMS blocks.
 
     ```bash
