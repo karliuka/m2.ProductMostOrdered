@@ -14,7 +14,8 @@ Extension displays the top most ordered products(bestseller) for your stores.
 ```bash
     composer require faonni/module-product-most-ordered
 ```
-Wait while dependencies are updated.
+    Wait while dependencies are updated.
+
 3. Enter following commands to enable module:
 
 ```bash
