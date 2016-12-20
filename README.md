@@ -1,4 +1,4 @@
-# Magento2 ProductMostOrdered
+# Magento2 Product Most Ordered
 Extension displays the top most ordered products(bestseller) for your stores.
 
 ### Home page
@@ -45,3 +45,5 @@ A Layout Update XML to all categories.
 	</action>	
 </referenceBlock>
     ```
+    
+* [Magento2 Product Most Viewed](https://github.com/karliuka/m2.ProductMostViewed)
