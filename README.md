@@ -46,7 +46,7 @@ A Layout Update XML to all categories.
 		<argument name="period" xsi:type="string">monthly</argument>
 	</action>
 	<action method="setInterval">
-		<argument name="period" xsi:type="string">3</argument>
+		<argument name="interval" xsi:type="string">3</argument>
 	</action>	
 </referenceBlock>
     ```
