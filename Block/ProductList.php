@@ -104,12 +104,11 @@ class ProductList extends AbstractProduct implements IdentityInterface
      */
     protected function _prepareData()
     {       
- 		$period = $this->getPeriod() ? $this->getPeriod() : 'daily';
- 		 		    
-        $this->_itemCollection = $this->_productsFactory->create()
+ 		list($from, $to) = $this->getFromTo();
+		$this->_itemCollection = $this->_productsFactory->create()
 			->addAttributeToSelect('*')
-			->setPeriod($period)
-			->addOrdersCount()
+			->setPeriod($this->getPeriod())
+			->addOrdersCount($from, $to)
 			->addStoreFilter();
 
         if ($this->moduleManager->isEnabled('Magento_Checkout')) {
@@ -123,7 +122,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
 			$this->_itemCollection->addCategoryFilter($this->getCurrentCategory());
 		}	
 				
-		$this->_itemCollection->setPage(1, $numProducts); 		  
+		$this->_itemCollection->setPage(1, $numProducts); 
         $this->_itemCollection->load();
 
         foreach ($this->_itemCollection as $product) {
@@ -184,4 +183,49 @@ class ProductList extends AbstractProduct implements IdentityInterface
         }
         return $identities;
     }
+	
+    /**
+     * Return period
+     *
+     * @return string
+     */
+    public function getPeriod()
+    {
+		$period = $this->getData('period');
+		return ($period && in_array($period, ['daily', 'monthly', 'yearly'])) ? $period : 'daily';
+    }
+	
+    /**
+     * Return from to interval
+     *
+     * @return array
+     */
+    public function getFromTo()
+    {
+		$from = '';
+		$to = '';		
+		$interval = (int)$this->getInterval();
+		
+		if ($interval > 0) {
+			$period = $this->getPeriod();
+			$dtTo = new \DateTime();
+			$dtFrom = clone $dtTo;
+			// modify from
+			if ($period == 'yearly') {
+				// last $interval year(s)
+				$dtFrom->setDate($dtFrom->format('Y'), 1, 1);
+				$dtFrom->modify("-{$interval} year");
+			} elseif ($period == 'monthly') {
+				// last $interval month(s)
+				$dtFrom->setDate($dtFrom->format('Y'), $dtFrom->format('m'), 1);
+				$dtFrom->modify("-{$interval} month");
+			} else {
+				// last $interval day(s)
+				$dtFrom->modify("-{$interval} day");
+			}
+			$from = $dtFrom->format('Y-m-d');
+			$to = $dtTo->format('Y-m-d');
+		}		
+		return [$from, $to];
+    }	
 }

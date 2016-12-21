@@ -31,7 +31,8 @@
                     <argument name="title" xsi:type="string" translate="true">Most Ordered Products</argument>
 					<argument name="num_products" xsi:type="string">6</argument>
 					<!-- use daily, monthly or yearly -->
-					<argument name="period" xsi:type="string">daily</argument>                   
+					<argument name="period" xsi:type="string">monthly</argument>
+					<argument name="interval" xsi:type="string">3</argument>
                 </arguments>
                 <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="product.most.ordered.addto" as="addto">
                     <block class="Magento\Catalog\Block\Product\ProductList\Item\AddTo\Compare" name="product.most.ordered.addto.compare" as="compare" template="Magento_Catalog::product/list/addto/compare.phtml"/>

@@ -79,7 +79,7 @@ class Collection extends ProductCollection
      * @param string $to
      * @return $this
      */
-    public function addOrdersCount($from = '', $to = '')
+    public function addOrdersCount($from='', $to='')
     {
         $this->getSelect()
 			->join(
@@ -92,8 +92,8 @@ class Collection extends ProductCollection
 
         if ($from != '' && $to != '') {
             $this->getSelect()
-				->where('a.logged_at >= ?', $from)
-				->where('a.logged_at <= ?', $to);
+				->where('a.period >= ?', $from)
+				->where('a.period <= ?', $to);
         }
         return $this;
     }
@@ -105,7 +105,7 @@ class Collection extends ProductCollection
      * @param null|string|bool|int|Store $store
      * @return $this
      */
-    public function addStoreFilter($store = null)
+    public function addStoreFilter($store=null)
     {
         parent::addStoreFilter($store);       
         $this->getSelect()->where('a.store_id=?', $this->getStoreId());        

@@ -27,7 +27,9 @@ A shortcode to Homepage and to other CMS pages or CMS blocks.
     ```bash
 {{block class='Faonni\ProductMostOrdered\Block\ProductList' 
 		template='Faonni_ProductMostOrdered::product/list/items.phtml' 
-		title='Most Ordered Products' 
+		title='Most Ordered Products'
+		period='monthly'
+		interval='3'
 		num_products='6'
 }}
     ```
@@ -42,6 +44,9 @@ A Layout Update XML to all categories.
 	</action>
 	<action method="setPeriod">
 		<argument name="period" xsi:type="string">monthly</argument>
+	</action>
+	<action method="setInterval">
+		<argument name="period" xsi:type="string">3</argument>
 	</action>	
 </referenceBlock>
     ```
