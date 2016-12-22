@@ -52,3 +52,4 @@ A Layout Update XML to all categories.
     ```
     
 * [Magento2 Product Most Viewed](https://github.com/karliuka/m2.ProductMostViewed)
+* [Magento2 Product Most Sold](https://github.com/karliuka/m2.ProductMostSold)
