@@ -2,17 +2,24 @@
     "name": "faonni/module-product-most-ordered",
     "description": "Extension displays the top most ordered products(bestseller) for your stores.",
     "type": "magento2-module",
-	"version": "2.0.3",
+	"version": "2.0.4",
+    "authors": [{
+        "name" : "Karliuka Vitalii",
+        "email": "karliuka.vitalii@gmail.com"
+    }],	
 	"license": [
 		"OSL-3.0"
-		],
+	],
 	"require": {
-		"php": "~5.5.0|~5.6.0|~7.0.0"
-		},
+		"php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0",
+		"magento/module-catalog": "100.0.*|101.0.*|102.0.*"
+	},
 	"autoload": {
-	"files": [ "registration.php" ],
-	"psr-4": {
-		"Faonni\\ProductMostOrdered\\": ""
+		"files": [ 
+			"registration.php" 
+		],
+		"psr-4": {
+			"Faonni\\ProductMostOrdered\\": ""
 		}
 	}
 }
