@@ -10,7 +10,7 @@ use Magento\Catalog\Block\Product\AbstractProduct;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Framework\DataObject\IdentityInterface;
-use Magento\Framework\Module\Manager;
+use Magento\Framework\Module\Manager as ModuleManager;
 use Magento\Framework\Registry;
 use Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory;
 
@@ -20,52 +20,54 @@ use Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory;
 class ProductList extends AbstractProduct implements IdentityInterface
 {
     /**
-     * Core registry
+     * Core Registry
      *
      * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
     	
     /**
-     * Product collection
+     * Product Collection
      * 
      * @var \Magento\Catalog\Model\ResourceModel\Product\Collection
      */
     protected $_itemCollection;
 
     /**
-     * Catalog product visibility
+     * Catalog Product Visibility
      *
      * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_catalogProductVisibility;
 
     /**
-     * Module manager
+     * Module Manager
      * 
      * @var \Magento\Framework\Module\Manager
      */
     protected $moduleManager;
     
     /**
-     * Reports product collection factory
+     * Reports Product Collection Factory
      * 
      * @var \Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory
      */
     protected $_productsFactory;    
 
     /**
-     * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
-     * @param \Magento\Framework\Module\Manager $moduleManager
-     * @param \Magento\Framework\Registry $registry
-     * @param \Faonni\ProductMostOrdered\Model\ResourceModel\Product\CollectionFactory $productsFactory
+     * Initialize Block
+	 *
+     * @param Context $context
+     * @param Visibility $catalogProductVisibility
+     * @param ModuleManager $moduleManager
+     * @param Registry $registry
+     * @param CollectionFactory $productsFactory
      * @param array $data
      */
     public function __construct(
         Context $context,
         Visibility $catalogProductVisibility,
-        Manager $moduleManager,
+        ModuleManager $moduleManager,
         Registry $registry,
         CollectionFactory $productsFactory,
         array $data = []
@@ -74,6 +76,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
         $this->moduleManager = $moduleManager;
         $this->_coreRegistry = $registry;
         $this->_productsFactory = $productsFactory;
+        
         parent::__construct(
             $context,
             $data
@@ -81,13 +84,14 @@ class ProductList extends AbstractProduct implements IdentityInterface
     }
 
     /**
-     * Prepare items data
+     * Prepare Items Data
      * 
      * @return \Faonni\ProductMostOrdered\Block\ProductList
      */
     protected function _prepareData()
     {       
  		list($from, $to) = $this->getFromTo();
+ 		
 		$this->_itemCollection = $this->_productsFactory->create()
 			->addAttributeToSelect('*')
 			->setPeriod($this->getPeriod())
@@ -98,13 +102,16 @@ class ProductList extends AbstractProduct implements IdentityInterface
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         
-        $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());       
-		$numProducts = $this->getNumProducts() ? $this->getNumProducts() : 6;
+        $this->_itemCollection->setVisibility(
+			$this->_catalogProductVisibility->getVisibleInCatalogIds()
+		);       
 
 		if ($this->getCurrentCategory()) {
 			$this->_itemCollection->addCategoryFilter($this->getCurrentCategory());
-		}	
-				
+		}
+		
+		$numProducts = $this->getNumProducts() ?: 6;
+		
 		$this->_itemCollection->setPage(1, $numProducts); 
         $this->_itemCollection->load();
 
@@ -116,7 +123,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
     }
     
     /**
-     * Retrieve current category model object
+     * Retrieve Current Category Model Object
      *
      * @return \Magento\Catalog\Model\Category
      */
@@ -132,8 +139,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
     }
     
     /**
-     * Before rendering html process
-     * Prepare items collection
+     * Before Rendering Html Process
      *
      * @return \Faonni\ProductMostOrdered\Block\ProductList
      */
@@ -144,7 +150,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
     }
 
     /**
-     * Retrieve items collection
+     * Retrieve Items Collection
      *
      * @return \Magento\Catalog\Model\ResourceModel\Product\Collection
      */
@@ -154,7 +160,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
     }
 
     /**
-     * Return identifiers for produced content
+     * Retrieve Identifiers For Produced Content
      *
      * @return array
      */
@@ -168,7 +174,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
     }
 	
     /**
-     * Return period
+     * Retrieve Period
      *
      * @return string
      */
@@ -179,7 +185,7 @@ class ProductList extends AbstractProduct implements IdentityInterface
     }
 	
     /**
-     * Return from to interval
+     * Retrieve From/To Interval
      *
      * @return array
      */

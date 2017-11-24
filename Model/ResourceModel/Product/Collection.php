@@ -9,9 +9,7 @@ namespace Faonni\ProductMostOrdered\Model\ResourceModel\Product;
 use Magento\Catalog\Model\ResourceModel\Product\Collection as ProductCollection;
 
 /**
- * Catalog product most viewed items collection
- *
- * @SuppressWarnings(PHPMD.LongVariable)
+ * Product Most Viewed Collection
  */
 class Collection extends ProductCollection
 {
@@ -23,7 +21,7 @@ class Collection extends ProductCollection
     protected $_period;
     	
     /**
-     * Tables per period
+     * Tables Per Period
      *
      * @var array
      */
@@ -34,11 +32,10 @@ class Collection extends ProductCollection
     ];
     
     /**
-     * Set period
-     * @codeCoverageIgnore
+     * Set Period
      *
      * @param string $period
-     * @return $this
+     * @return Collection
      */
     public function setPeriod($period)
     {
@@ -47,7 +44,7 @@ class Collection extends ProductCollection
     }
     
     /**
-     * Return table per period
+     * Retrieve Table Per Period
      *
      * @param string $period
      * @return mixed
@@ -58,11 +55,11 @@ class Collection extends ProductCollection
     }
         	
     /**
-     * Add orders count
+     * Add Orders Count
      *
      * @param string $from
      * @param string $to
-     * @return $this
+     * @return Collection
      */
     public function addOrdersCount($from='', $to='')
     {
@@ -84,11 +81,10 @@ class Collection extends ProductCollection
     }
     
     /**
-     * Add store availability filter. Include availability product
-     * for store website
+     * Add Store Availability Filter
      *
      * @param null|string|bool|int|Store $store
-     * @return $this
+     * @return Collection
      */
     public function addStoreFilter($store=null)
     {
